@@ -6,7 +6,6 @@
 
 
 
-
 #include "derivative.h" 
 //Ports
 #define setPortB(x) 	(GPIOB_PDOR |= (1 << x))
@@ -40,28 +39,38 @@ void delay(long ltime);
 int main(void)
 {	
 	cfgPorts();	
-	turnOnRedLed;
+	turnOffRedLed;
 	turnOffGreenLed;
 	turnOffBlueLed; 
 	for(;;)
     {
-		//if((GPIOB_PDIR & 0x00000008) == 0)
-		if(readPortB(btn1) == nButtonPressed)
+		while (readPortB(btn1)==nButtonPressed)
 		{
-			turnOffRedLed;
-			turnOnGreenLed;
-			turnOffBlueLed;
+			
+			for(;;)
+			    {
+					//if((GPIOB_PDIR & 0x00000008) == 0)
+					if(readPortB(btn1) == nButtonPressed)
+					{
+						turnOffRedLed;
+						turnOnGreenLed;
+						turnOffBlueLed;
+					}
+					
+					else 
+					{
+						turnOnBlueLed;
+						turnOffGreenLed;
+						turnOffRedLed;
+					}
+			    } 
+			    return 0;
+			}
+			
 		}
-		else
-		{
-			turnOffRedLed;
-			turnOffGreenLed;
-			turnOnBlueLed;
-		
-		}
-    } 
-    return 0;
 }
+
+	
  //--------------------------------------------------------------
 void cfgPorts(void)
 {
